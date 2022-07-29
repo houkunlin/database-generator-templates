@@ -37,7 +37,8 @@
       "^varchar",
       "^text",
       "^longtext",
-      "^tinytext"
+      "^tinytext",
+      "^nvarchar"
     ]
   },
   {

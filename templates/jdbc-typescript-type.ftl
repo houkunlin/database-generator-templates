@@ -1,7 +1,7 @@
 <#-- MyBatis 官方的JdbcType列表：https://mybatis.org/mybatis-3/apidocs/reference/org/apache/ibatis/type/JdbcType.html -->
 <#assign JdbcTypeToTypeScriptTypes = {
 "ARRAY":"any",
-"BIGINT":"number",
+"BIGINT":"string",
 "BINARY":"any",
 "BIT":"boolean",
 "BLOB":"any",

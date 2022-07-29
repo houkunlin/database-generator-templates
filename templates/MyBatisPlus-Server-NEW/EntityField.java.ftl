@@ -36,6 +36,8 @@ public class ${entity.name.entity} implements Serializable {
         </#if>
         <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted")>
             @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+        <#elseif !field.primaryKey>
+            @TableField("${field.column.name}")
         </#if>
         private ${field.typeName} ${field.name};
     </#if>

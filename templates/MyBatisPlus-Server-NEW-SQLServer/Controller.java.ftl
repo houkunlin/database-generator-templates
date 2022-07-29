@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,7 @@ public class ${entity.name.controller} {
      */
     @ApiOperation("${entity.comment}-列表（不分页）")
     @GetMapping("all")
-    public List<${entity.name}Vo> listAll(final IPage<${entity.name.entity}> page, final ${entity.name}Query query) {
+    public List<${entity.name}Vo> listAll(@PageableDefault IPage<${entity.name.entity}> page, ${entity.name}Query query) {
         final List<${entity.name.entity}> list = query.query(${entity.name.service.firstLower}, page).list();
         return list.stream().map(${entity.name.firstLower}Transform::toVo).collect(Collectors.toList());
     }
@@ -55,7 +57,7 @@ public class ${entity.name.controller} {
      */
     @ApiOperation("${entity.comment}-列表（分页）")
     @GetMapping
-    public Object list(final IPage<${entity.name.entity}> page, final ${entity.name}Query query) {
+    public Object list(@PageableDefault IPage<${entity.name.entity}> page, ${entity.name}Query query) {
         return query.lambdaQuery(${entity.name.service.firstLower}).page(page).convert(${entity.name.firstLower}Transform::toVo);
     }
 
@@ -67,9 +69,8 @@ public class ${entity.name.controller} {
     @ApiOperation("${entity.comment}-详细信息")
     @ApiImplicitParam(name = "id", value = "主键", required = true, paramType = "path", dataTypeClass = String.class)
     @GetMapping("{id}")
-    public ${entity.name.entity}Vo info(@PathVariable final ${primary.field.typeName} id) {
-        final ${entity.name.entity} ${entity.name.firstLower} = ${entity.name.service.firstLower}.getById(id);
-        return ${entity.name.firstLower}Transform.toVo(${entity.name.firstLower});
+    public ${entity.name.entity} info(@PathVariable ${primary.field.typeName} id) {
+        return ${entity.name.service.firstLower}.getById(id);
     }
 
     /**
@@ -80,9 +81,9 @@ public class ${entity.name.controller} {
     @ApiOperation("${entity.comment}-保存信息")
     @AppLog("#${r'{'}#form.${primary.field.name}?.isEmpty() ? '新增' : '修改'}${entity.comment}：#${r'{'}#form.${primary.field.name}} (ID-#${r'{'}result})")
     @PostMapping
-    public ${entity.name.entity} save${entity.name}(@Valid @RequestBody final ${entity.name}Form form) {
+    public String save${entity.name}(@Valid @RequestBody ${entity.name}Form form) {
         final ${entity.name.entity} ${entity.name.firstLower} = ${entity.name.service.firstLower}.save${entity.name}(form);
-        return ${entity.name.firstLower};
+        return ${entity.name.firstLower}.get${primary.field.name.firstUpper}();
     }
 
     /**
@@ -95,7 +96,7 @@ public class ${entity.name.controller} {
     @AppLog("删除${entity.comment}：#${r'{'}result}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    public String delete${entity.name}(@RequestBody final Set<${primary.field.typeName}> ids) {
+    public String delete${entity.name}(@RequestBody Set<${primary.field.typeName}> ids) {
         return ${entity.name.service.firstLower}.delete${entity.name}(ids);
     }
 

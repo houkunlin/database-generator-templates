@@ -20,12 +20,12 @@ public interface ${entity.name.service} extends IService<${entity.name.entity}> 
      *
      * @param form ${entity.comment}
      */
-    ${entity.name.entity} save${entity.name}(final ${entity.name.entity}Form form);
+    ${entity.name.entity} save${entity.name}(${entity.name.entity}Form form);
 
     /**
      * 业务处理：删除多个 <strong>${entity.comment}</strong>
      *
      * @param ids 主键ID列表
      */
-    String delete${entity.name}(final Set<${primary.field.typeName}> ids);
+    String delete${entity.name}(Set<${primary.field.typeName}> ids);
 }

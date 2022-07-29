@@ -9,9 +9,7 @@ import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 /**
 * 实体类：${entity.comment}<#if table.comment?trim?length gt 0 && entity.comment != table.comment> (${table.comment})</#if>
@@ -19,8 +17,7 @@ import lombok.experimental.SuperBuilder;
 * @author ${developer.author}
 */
 @Data
-@SuperBuilder
-@EqualsAndHashCode(callSuper = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("${table.name}")
@@ -36,8 +33,10 @@ public class ${entity.name.entity} implements Serializable {
         </#if>
         <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted")>
             @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+        <#else>
+            @TableField("${field.column.name}")
         </#if>
-        private ${field.typeName} ${field.name};
+        private ${field.typeName} ${field.column.name};
     </#if>
 </#list>
 }

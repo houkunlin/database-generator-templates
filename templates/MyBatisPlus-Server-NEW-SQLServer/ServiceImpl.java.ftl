@@ -28,20 +28,20 @@ public class ${entity.name.serviceImpl} extends ServiceImpl<${entity.name.dao}, 
     private final ${entity.name}Transform ${entity.name.firstLower}Transform;
 
     @Override
-    public ${entity.name.entity} save${entity.name}(final ${entity.name.entity}Form form) {
+    public ${entity.name.entity} save${entity.name}(${entity.name.entity}Form form) {
         final ${entity.name.entity} ${entity.name.firstLower} = ${entity.name.firstLower}Transform.toEntity(form);
         saveOrUpdate(${entity.name.firstLower});
         return ${entity.name.firstLower};
     }
 
     @Override
-    public String delete${entity.name}(final Set<${primary.field.typeName}> ids) {
+    public String delete${entity.name}(Set<${primary.field.typeName}> ids) {
         if (ids == null || ids.isEmpty()) {
             return null;
         }
         final List<${entity.name.entity}> list = lambdaQuery().select(${entity.name.entity}::get${primary.field.name.firstUpper}).in(${entity.name.entity}::get${primary.field.name.firstUpper}, ids).list();
         if (!list.isEmpty()) {
-            removeByIds(list.stream().map(${entity.name.entity}::get${primary.field.name.firstUpper}).collect(Collectors.toSet()));
+            removeByIds(list.stream().map(${entity.name.entity}::get${primary.field.name.firstUpper}).collect(Collectors.toList()));
         }
         return list.stream().map(${entity.name.entity}::get${primary.field.name.firstUpper}).collect(Collectors.joining("、"));
     }
