@@ -23,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("${table.name}")
+@TableName(value = "${table.name}", autoResultMap = false)
 public class ${entity.name.entity} implements Serializable {
 <#list fields as field>
     <#if field.selected>
@@ -36,6 +36,8 @@ public class ${entity.name.entity} implements Serializable {
         </#if>
         <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted")>
             @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+        <#elseif !field.primaryKey>
+            @TableField("${field.column.name}")
         </#if>
         private ${field.typeName} ${field.name};
     </#if>

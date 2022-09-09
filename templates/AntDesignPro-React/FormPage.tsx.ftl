@@ -3,8 +3,8 @@ ${gen.setFilename("FormPage.tsx")}
 ${gen.setFilepath("ui/${entity.name}/")}
 import useUrlState from '@ahooksjs/use-url-state';
 import { PageContainer } from '@ant-design/pro-layout';
+import ProCard from '@ant-design/pro-card';
 import ProForm, {
-  ProCard,
   ProFormDatePicker,
   ProFormDigit,
   ProFormRadio,
@@ -20,7 +20,7 @@ import { get${entity.name}, save${entity.name} } from './service';
 import FooterButton from '@/components/FooterButton';
 import { getDict } from "@houkunlin/antd-utils";
 
-const rules = {
+const rules: any = {
 <#list fields as field>
     <#if field.selected>
         ${field.name}: [{ required: true, message: '请输入 ${field.comment}', type: '${getTypeScriptType(field.column)?lower_case}' }],
@@ -35,9 +35,9 @@ export default () => {
 
   const load${entity.name} = useCallback((params: Record<any, any>) => {
     if (params.${primary.field.name}) {
-      return get${entity.name}(params.${primary.field.name}).then(res => res || {})
+      return get${entity.name}(params.${primary.field.name}).then(res => res || {});
     }
-    return Promise.resolve({})
+    return Promise.resolve({});
   }, []);
 
   return (

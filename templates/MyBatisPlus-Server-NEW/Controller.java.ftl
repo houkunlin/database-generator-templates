@@ -10,7 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ import java.util.Set;
 @Api(tags = "${entity.comment}")
 @RestController
 @RequestMapping("${entity.uri?replace("_", '-', 'ri')}")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ${entity.name.controller} {
     private final ${entity.name.service} ${entity.name.service.firstLower};
     private final ${entity.name}Transform ${entity.name.firstLower}Transform;
@@ -55,7 +55,7 @@ public class ${entity.name.controller} {
      */
     @ApiOperation("${entity.comment}-列表（分页）")
     @GetMapping
-    public Object list(final IPage<${entity.name.entity}> page, final ${entity.name}Query query) {
+    public IPage<${entity.name}Vo> list(final IPage<${entity.name.entity}> page, final ${entity.name}Query query) {
         return query.lambdaQuery(${entity.name.service.firstLower}).page(page).convert(${entity.name.firstLower}Transform::toVo);
     }
 

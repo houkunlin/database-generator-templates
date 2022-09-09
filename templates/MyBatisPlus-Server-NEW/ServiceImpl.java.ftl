@@ -8,7 +8,7 @@ import ${entity.packages.dao.full};
 import ${entity.packages.service.full};
 import ${entity.packages.service.full}Transform;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import java.util.Set;
 @CacheConfig(cacheNames = {${entity.name.service}.CACHE_NAME})
 @Transactional(rollbackFor = Exception.class)
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ${entity.name.serviceImpl} extends ServiceImpl<${entity.name.dao}, ${entity.name.entity}> implements ${entity.name.service} {
     private final ${entity.name}Transform ${entity.name.firstLower}Transform;
 

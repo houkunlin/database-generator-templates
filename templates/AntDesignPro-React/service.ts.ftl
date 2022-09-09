@@ -20,5 +20,5 @@ export async function save${entity.name}(data: ${entity.name}.Entity, options: R
 }
 
 export async function delete${entity.name}ByIds(ids: any[], options: Record<string, any> = {}) {
-  return request<${entity.name}.Entity>(apiUri, { method: 'DELETE', data: ids, ...options, });
+  return request<any>(apiUri, { method: 'DELETE', data: ids, ...options, });
 }
