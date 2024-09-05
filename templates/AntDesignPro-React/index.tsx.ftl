@@ -21,7 +21,7 @@ export default function ${entity.name}Index() {
             {<#if field.column.comment?trim?length gt 0 && field.comment != field.column.comment>// 数据库字段说明：${field.column.comment}</#if>
             title: '${field.comment}',
             dataIndex: '${field.name}',
-            <#if field.name?starts_with("create") || field.name?starts_with("update") || field.name?starts_with("delete") >
+            <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") >
                 width: 160,
             </#if>
             align: 'center',

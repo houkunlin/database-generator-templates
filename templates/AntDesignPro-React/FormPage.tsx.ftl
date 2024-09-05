@@ -43,7 +43,8 @@ type RulesType = {
 const rules: RulesType = {
 <#list fields as field>
     <#if field.selected>
-        <#if field.column.name?starts_with("is_")>
+        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
+        <#elseif field.column.name?lower_case?starts_with("is_")>
             ${field.name?replace('is','','f')?uncap_first}: [{ required: true, message: '请输入${field.comment}', type: '${getTypeScriptType(field.column)?lower_case}' }],
         <#else>
             ${field.name}: [{ required: true, message: '请输入${field.comment}', type: '${getTypeScriptType(field.column)?lower_case}' }],
@@ -57,7 +58,7 @@ export function FormFieldContent(){
         <#list fields as field>
             <#if field.selected>
                 <#assign tsType = getTypeScriptType(field.column) />
-                <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") >
+                <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
                 <#elseif tsType == 'any' || tsType == 'string'>
                     <ProFormText
                             width="md"

@@ -17,11 +17,11 @@ const queryParams = transformParams(params, sorter, filter)
   return request<API.Page<SERVER.${entity.name}VoList>>(apiUri + 'page', {method: 'GET',params: {...queryParams},...options,});
 }
 
-export async function get${entity.name}(${entity.name.firstLower}Id: Key, options: Record<string, any> = {}) {
+export async function get${entity.name}(${entity.name.firstLower}Id: SERVER.IdType, options: Record<string, any> = {}) {
   return request<SERVER.${entity.name}Vo>(apiUri + ${entity.name.firstLower}Id, { method: 'GET', ...options, });
 }
 
-export async function get${entity.name}Detail(${entity.name.firstLower}Id: Key, options: Record<string, any> = {}) {
+export async function get${entity.name}Detail(${entity.name.firstLower}Id: SERVER.IdType, options: Record<string, any> = {}) {
   return request<SERVER.${entity.name}VoDetail>(apiUri + ${entity.name.firstLower}Id + '/detail', { method: 'GET', ...options, });
 }
 
