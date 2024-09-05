@@ -2,15 +2,14 @@ ${gen.setType("entity")}
 package ${entity.packages.entity};
 
 import com.baomidou.mybatisplus.annotation.*;
-
 ${entity.packages}
-
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -19,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 * @author ${developer.author}
 */
 @Data
+@FieldNameConstants
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -32,14 +32,23 @@ public class ${entity.name.entity} implements Serializable {
         <#if field.column.comment?trim?length gt 0 && field.comment != field.column.comment> * <p>数据库字段说明：${field.column.comment}</p></#if>
         */
         <#if field.primaryKey>
-            @TableId(type = IdType.ASSIGN_ID)
+            @TableId(value = "${field.column.name}", type = IdType.ASSIGN_ID)
         </#if>
-        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted")>
-            @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+        <#if field.name?starts_with("created") || field.name?starts_with("deleted") || field.name?starts_with("is_deleted") || field.name?starts_with("isDeleted")>
+            @TableField(value = "${field.column.name}", updateStrategy = FieldStrategy.NEVER, fill = FieldFill.INSERT)
+        <#elseif field.name?starts_with("updated")>
+            @TableField(value = "${field.column.name}", fill = FieldFill.INSERT_UPDATE)
+        <#elseif field.name?starts_with("revision") || field.name?starts_with("version")>
+            @Version
+            @TableField("${field.column.name}")
         <#elseif !field.primaryKey>
             @TableField("${field.column.name}")
         </#if>
-        private ${field.typeName} ${field.name};
+        <#if field.column.name?starts_with("is_")>
+            private ${field.typeName} ${field.name?replace('is','','f')?uncap_first};
+        <#else>
+            private ${field.typeName} ${field.name};
+        </#if>
     </#if>
 </#list>
 }

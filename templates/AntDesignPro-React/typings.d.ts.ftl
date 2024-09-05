@@ -15,7 +15,11 @@ declare namespace ${entity.name} {
     <#list fields as field>
         <#if field.selected>
             // ${field.typeName} ${field.comment}
-            ${field.name}?: ${getTypeScriptType(field.column)};
+            <#if field.column.name?starts_with("is_")>
+                ${field.name?replace('is','','f')?uncap_first}?: ${getTypeScriptType(field.column)};
+            <#else>
+                ${field.name}?: ${getTypeScriptType(field.column)};
+            </#if>
         </#if>
     </#list>
 

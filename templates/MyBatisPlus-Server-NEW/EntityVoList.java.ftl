@@ -1,4 +1,4 @@
-${gen.setFilename("${entity.name}Vo.java")}
+${gen.setFilename("${entity.name}VoList.java")}
 ${gen.setFilepath("${settings.javaPath}/${entity.packages.entity}/")}
 package ${entity.packages.entity};
 
@@ -23,7 +23,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${entity.name}Vo implements Serializable {
+public class ${entity.name}VoList implements Serializable {
 <#list fields as field>
     <#if field.selected>
         /**
