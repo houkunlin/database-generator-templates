@@ -26,7 +26,7 @@ import jakarta.validation.constraints.NotBlank;
 public class ${entity.name}Form implements Serializable {
 <#list fields as field>
     <#if field.selected>
-        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("is_deleted") >
+        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
         <#else>
             /**
             * ${field.comment}
@@ -45,8 +45,12 @@ public class ${entity.name}Form implements Serializable {
                 </#if>
             </#if>
             @Schema(description = "${field.comment}")
-            <#if field.column.name?starts_with("is_")>
-            private ${field.typeName} ${field.name?replace('is','','f')?uncap_first};
+            <#if field.typeName == 'Boolean'>
+                <#if field.column.name?lower_case?starts_with("is_")>
+                    private boolean ${field.name?replace('is','','f')?uncap_first};
+                <#else>
+                    private boolean ${field.name};
+                </#if>
             <#else>
             private ${field.typeName} ${field.name};
             </#if>

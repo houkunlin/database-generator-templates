@@ -31,8 +31,12 @@ public class ${entity.name}Vo implements Serializable {
         <#if field.column.comment?trim?length gt 0 && field.comment != field.column.comment> * <p>数据库字段说明：${field.column.comment}</p></#if>
         */
         @Schema(description = "${field.comment}")
-        <#if field.column.name?starts_with("is_")>
-        private ${field.typeName} ${field.name?replace('is','','f')?uncap_first};
+        <#if field.typeName == 'Boolean'>
+            <#if field.column.name?lower_case?starts_with("is_")>
+                private boolean ${field.name?replace('is','','f')?uncap_first};
+            <#else>
+                private boolean ${field.name};
+            </#if>
         <#else>
         private ${field.typeName} ${field.name};
         </#if>

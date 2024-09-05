@@ -23,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "${table.name}", autoResultMap = false)
+@TableName("${table.name}")
 public class ${entity.name.entity} implements Serializable {
 <#list fields as field>
     <#if field.selected>
@@ -34,7 +34,7 @@ public class ${entity.name.entity} implements Serializable {
         <#if field.primaryKey>
             @TableId(value = "${field.column.name}", type = IdType.ASSIGN_ID)
         </#if>
-        <#if field.name?starts_with("created") || field.name?starts_with("deleted") || field.name?starts_with("is_deleted") || field.name?starts_with("isDeleted")>
+        <#if field.name?starts_with("created") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted")>
             @TableField(value = "${field.column.name}", updateStrategy = FieldStrategy.NEVER, fill = FieldFill.INSERT)
         <#elseif field.name?starts_with("updated")>
             @TableField(value = "${field.column.name}", fill = FieldFill.INSERT_UPDATE)
@@ -44,8 +44,12 @@ public class ${entity.name.entity} implements Serializable {
         <#elseif !field.primaryKey>
             @TableField("${field.column.name}")
         </#if>
-        <#if field.column.name?starts_with("is_")>
-            private ${field.typeName} ${field.name?replace('is','','f')?uncap_first};
+        <#if field.typeName == 'Boolean'>
+            <#if field.column.name?lower_case?starts_with("is_")>
+                private boolean ${field.name?replace('is','','f')?uncap_first};
+            <#else>
+                private boolean ${field.name};
+            </#if>
         <#else>
             private ${field.typeName} ${field.name};
         </#if>

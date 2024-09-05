@@ -25,14 +25,14 @@ import lombok.NoArgsConstructor;
 public class ${entity.name}Query implements LambdaQuery<${entity.name.entity}> {
 <#list fields as field>
     <#if field.selected>
-        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("is_deleted") >
+        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
         <#else>
             /**
             * ${field.comment}
             <#if field.column.comment?trim?length gt 0 && field.comment != field.column.comment> * <p>数据库字段说明：${field.column.comment}</p></#if>
             */
             @Schema(description = "${field.comment}")
-            <#if field.column.name?starts_with("is_")>
+            <#if field.column.name?lower_case?starts_with("is_")>
             private ${field.typeName} ${field.name?replace('is','','f')?uncap_first};
             <#else>
             private ${field.typeName} ${field.name};
@@ -45,9 +45,15 @@ public class ${entity.name}Query implements LambdaQuery<${entity.name.entity}> {
     public LambdaQueryChainWrapper<${entity.name.entity}> queryBuilder(final LambdaQueryChainWrapper<${entity.name.entity}> wrapper) {
         <#list fields as field>
             <#if field.selected>
-                <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") >
-                <#elseif field.column.name?starts_with("is_")>
-                    addQuery(${entity.name.entity}::get${field.name?replace('is','','f')}, ${field.name?replace('is','','f')?uncap_first}, wrapper::eq);
+                <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
+                <#elseif field.typeName == 'Boolean'>
+                    <#if field.column.name?lower_case?starts_with("is_")>
+                        addQuery(${entity.name.entity}::is${field.name?replace('is','','f')}, ${field.name?replace('is','','f')?uncap_first}, wrapper::eq);
+                    <#else>
+                        addQuery(${entity.name.entity}::is${field.name.firstUpper}, ${field.name}, wrapper::eq);
+                    </#if>
+                <#elseif field.typeName == 'String'>
+                    addQuery(${entity.name.entity}::get${field.name.firstUpper}, ${field.name}, wrapper::like);
                 <#else>
                     addQuery(${entity.name.entity}::get${field.name.firstUpper}, ${field.name}, wrapper::eq);
                 </#if>
@@ -60,9 +66,15 @@ public class ${entity.name}Query implements LambdaQuery<${entity.name.entity}> {
     public QueryChainWrapper<${entity.name.entity}> queryBuilder(final QueryChainWrapper<${entity.name.entity}> wrapper) {
 <#list fields as field>
     <#if field.selected>
-        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") >
-        <#elseif field.column.name?starts_with("is_")>
-            addQuery(getColumnByPropertyCache(${entity.name.entity}.Fields.${field.name?replace('is','','f')?uncap_first}), ${field.name?replace('is','','f')?uncap_first}, wrapper::eq);
+        <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
+        <#elseif field.typeName == 'Boolean'>
+            <#if field.column.name?lower_case?starts_with("is_")>
+                addQuery(getColumnByPropertyCache(${entity.name.entity}.Fields.${field.name?replace('is','','f')?uncap_first}), ${field.name?replace('is','','f')?uncap_first}, wrapper::eq);
+            <#else>
+                addQuery(getColumnByPropertyCache(${entity.name.entity}.Fields.${field.name}), ${field.name}, wrapper::eq);
+            </#if>
+        <#elseif field.typeName == 'String'>
+            addQuery(getColumnByPropertyCache(${entity.name.entity}.Fields.${field.name}), ${field.name}, wrapper::like);
         <#else>
             addQuery(getColumnByPropertyCache(${entity.name.entity}.Fields.${field.name}), ${field.name}, wrapper::eq);
         </#if>
