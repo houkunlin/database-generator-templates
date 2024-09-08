@@ -15,6 +15,7 @@ type TableDataType = SERVER.${entity.name};
 const editUri = './edit';
 export default function ${entity.name}Index() {
   const actionRef = useRef<ActionType>();
+  const [editRow, setEditRow] = useState<TableDataType | undefined>(undefined);
   const columns = useMemo<ProColumns<TableDataType>[]>(() => [
     <#list fields as field>
         <#if field.selected>
@@ -25,12 +26,12 @@ export default function ${entity.name}Index() {
                 width: 160,
             </#if>
             align: 'center',
-            <#if field.primaryKey>
-                render: (dom, entity) => (
-                <Link to={editUri + '?${field.name}=' + entity.${field.name}}>{dom}</Link>
-                ),
-            </#if>
             sorter: false,
+            <#if field.primaryKey>
+              render: (dom, entity) => {
+                return (<Link to={editUri + '?${field.name}=' + entity.${field.name}}>{dom}</Link>)
+              },
+            </#if>
             },
         </#if>
     </#list>
@@ -45,15 +46,23 @@ export default function ${entity.name}Index() {
   return (
     <PageContainer>
       <ProTable<TableDataType, API.PageParams>
-        headerTitle="${entity.comment}"
+        headerTitle={'${entity.comment}'}
         actionRef={actionRef}
-        rowKey="${primary.field.name}"
+        rowKey={'${primary.field.name}'}
         request={list${entity.name}Page}
         columns={columns}
         search={{ labelWidth: 80, defaultCollapsed: true }}
-        options={{ fullScreen: true, reload: true, setting: true }}
+        options={{
+          fullScreen: true,
+          reload: true,
+          setting: true,
+          search: {
+            placeholder: '请输入搜索关键字',
+            allowClear: true,
+          }
+        }}
         toolBarRender={() => [
-        <Link to={editUri} key="add"><Button type="primary"><PlusOutlined /> 新增</Button></Link>,
+        <Link to={editUri} key={'add'}><Button type={'primary'} icon={<PlusOutlined />}>新增</Button></Link>,
         ]}
         rowSelection={{ alwaysShowAlert: true, }}
         tableAlertRender={tableAlertRender}

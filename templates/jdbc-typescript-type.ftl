@@ -10,7 +10,7 @@
 "CLOB":"any",
 "CURSOR":"any",
 "DATALINK":"any",
-"DATE":"Date",
+"DATE":"string | Date",
 "DATETIMEOFFSET":"any",
 "DECIMAL":"number",
 "DISTINCT":"any",
@@ -32,8 +32,8 @@
 "SMALLINT":"number",
 "SQLXML":"any",
 "STRUCT":"any",
-"TIME":"Date",
-"TIMESTAMP":"Date",
+"TIME":"string | Date",
+"TIMESTAMP":"string | Date",
 "TINYINT":"number",
 "UNDEFINED":"any",
 "VARBINARY":"any",
@@ -41,7 +41,7 @@
 } />
 <#-- 部分未考虑到的类型映射 -->
 <#assign OtherJdbcTypeToTypeScriptTypes = {
-"DATETIME":"Date",
+"DATETIME":"string | Date",
 "INT":"number",
 "TINYINT":"number",
 "MEDIUMINT":"number",
@@ -69,4 +69,13 @@
         <#return OtherJdbcTypeToTypeScriptTypes[type]>
     </#if>
     <#return 'any'>
+</#function>
+
+<#-- 需要忽略的字段列表 -->
+<#function isIgnoreField field>
+    <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
+        <#return true>
+    <#else>
+        <#return false>
+    </#if>
 </#function>
