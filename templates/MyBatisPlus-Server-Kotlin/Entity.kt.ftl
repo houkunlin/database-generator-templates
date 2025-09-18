@@ -1,0 +1,46 @@
+${gen.setType("entity")}
+package ${entity.packages.entity}
+
+${entity.packages}
+import com.baomidou.mybatisplus.annotation.*
+import java.io.Serializable
+
+/**
+ * 实体类：${entity.comment}<#if table.comment?trim?length gt 0 && entity.comment != table.comment> (${table.comment})</#if>
+ *
+ * @author ${developer.author}
+ */
+@TableName("${table.name}")
+class ${entity.name.entity} : Serializable {
+<#list fields as field>
+    <#if field.selected>
+        /**
+        * ${field.comment}<#if field.column.comment?trim?length gt 0 && field.comment != field.column.comment>
+        * <p>数据库字段说明：${field.column.comment}</p></#if>
+        */
+        <#if field.primaryKey>
+            @OrderBy(asc = true)
+            @TableId(value = "${field.column.name}", type = IdType.ASSIGN_ID)
+        </#if>
+        <#if field.name?starts_with("created") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted")>
+            @TableField(value = "${field.column.name}", updateStrategy = FieldStrategy.NEVER, fill = FieldFill.INSERT)
+        <#elseif field.name?starts_with("updated")>
+            @TableField(value = "${field.column.name}", fill = FieldFill.INSERT_UPDATE)
+        <#elseif field.name?starts_with("revision") || field.name?starts_with("version")>
+            @Version
+            @TableField("${field.column.name}")
+        <#elseif !field.primaryKey>
+            @TableField("${field.column.name}")
+        </#if>
+        <#if field.typeName == 'Boolean'>
+            <#if field.column.name?lower_case?starts_with("is_")>
+                var ${field.name?replace('is','','f')?uncap_first}: Boolean? = null
+            <#else>
+                var ${field.name}: Boolean? = null
+            </#if>
+        <#else>
+            var ${field.name}: ${field.typeName}? = null
+        </#if>
+    </#if>
+</#list>
+}
