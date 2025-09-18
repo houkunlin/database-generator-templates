@@ -2,7 +2,7 @@
 ${gen.setFilename("service.ts")}
 ${gen.setFilepath("ui/${entity.name}/")}
 import { request } from '@umijs/max';
-import { transformParams } from '@/antd-utils';
+import { transformParams } from '@houkunlin/antd-utils';
 import { Key } from "react";
 
 const apiUri = SYSTEM_CONTEXT_PATH + '/${entity.uri}/';

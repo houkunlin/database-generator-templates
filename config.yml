@@ -7,16 +7,80 @@ options:
   overrideOther: true
 settings:
   javaPath: src/main/java
-  sourcesPath: src/main/resources
-  entitySuffix: Entity
-  daoSuffix: Repository
-  serviceSuffix: Service
-  controllerSuffix: Controller
-  entityPackage: com.example.entity
-  daoPackage: com.example.repository
-  servicePackage: com.example.service
-  controllerPackage: com.example.controller
-  xmlPackage: mapper
+  resourcesPath: src/main/resources
+  fileTypes:
+    - type: entity
+      suffix: Entity
+      packageName: com.example.entity
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: mapper
+      suffix: Mapper
+      packageName: com.example.mapper
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: repository
+      suffix: Repository
+      packageName: com.example.repository
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: dao
+      suffix: Dao
+      packageName: com.example.dao
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: service
+      suffix: Service
+      packageName: com.example.service
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: serviceImpl
+      suffix: ServiceImpl
+      packageName: com.example.service.impl
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: controller
+      suffix: Controller
+      packageName: com.example.controller
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: form
+      suffix: Form
+      packageName: com.example.form
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: vo
+      suffix: Vo
+      packageName: com.example.vo
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: query
+      suffix: Query
+      packageName: com.example.query
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: transform
+      suffix: Transform
+      packageName: com.example.transform
+      ext: .java
+      path: src/main/java
+      override: true
+    - type: xml
+      suffix: Mapper
+      packageName: mapper
+      ext: .xml
+      path: src/main/resources
+      override: true
 types:
   - shortName: Object
     longName: java.lang.Object
@@ -25,8 +89,9 @@ types:
   - shortName: Boolean
     longName: java.lang.Boolean
     dbTypes:
-      - ^bit
-      - ^bool
+      - ^bit$
+      - ^bool # Postgresql
+      - ^boolean # Postgresql
   - shortName: Long
     longName: java.lang.Long
     dbTypes:
@@ -37,6 +102,8 @@ types:
       - ^tinyint
       - ^smallint
       - ^mediumint
+      - ^integer # Postgresql
+      - ^interval # Postgresql
       - ^int
   - shortName: String
     longName: java.lang.String
@@ -46,15 +113,23 @@ types:
       - ^text
       - ^longtext
       - ^tinytext
+      - ^cidr # Postgresql
+      - ^inet # Postgresql
+      - ^macaddr # Postgresql
+      - ^path # Postgresql
+      - ^uuid # Postgresql
+      - ^xml # Postgresql
   - shortName: BigDecimal
     longName: java.math.BigDecimal
     dbTypes:
       - ^decimal
       - ^numeric
+      - ^money # Postgresql
   - shortName: Float
     longName: java.lang.Float
     dbTypes:
       - ^float
+      - ^real # Postgresql
   - shortName: Double
     longName: java.lang.Double
     dbTypes:

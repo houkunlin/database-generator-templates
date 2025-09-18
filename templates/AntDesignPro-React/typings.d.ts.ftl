@@ -31,6 +31,10 @@ declare namespace ${entity.name} {
                 </#if>
             <#else>
                 ${field.name}?: ${getTypeScriptType(field.column)};
+                <#if field.name == 'createdBy' || field.name == 'updatedBy'>
+                    // ${field.typeName} ${field.comment} 字典文本值
+                    ${field.name}Text?: string;
+                </#if>
             </#if>
         </#if>
     </#list>
@@ -58,6 +62,10 @@ declare namespace SERVER {
                 </#if>
             <#else>
                 ${field.name}?: ${getTypeScriptType(field.column)};
+                <#if field.name == 'createdBy' || field.name == 'updatedBy'>
+                    // ${field.typeName} ${field.comment} 字典文本值
+                    ${field.name}Text?: string;
+                </#if>
             </#if>
         </#if>
     </#list>

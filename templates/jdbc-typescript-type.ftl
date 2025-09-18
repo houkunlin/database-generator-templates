@@ -73,7 +73,7 @@
 
 <#-- 需要忽略的字段列表 -->
 <#function isIgnoreField field>
-    <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >
+    <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") || field.name == 'id' >
         <#return true>
     <#else>
         <#return false>

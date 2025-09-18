@@ -8,7 +8,7 @@ import { DeleteOutlined, PlusOutlined, QuestionOutlined } from '@ant-design/icon
 import { delete${entity.name}ByIds, list${entity.name}Page } from './service';
 import { useCallback, useRef, useState, useMemo } from 'react';
 import { Link } from '@umijs/max';
-import { getDict, useAntdTableProBasicAction } from "@/antd-utils";
+import { getDict, useAntdTableProBasicAction } from "@houkunlin/antd-utils";
 
 type TableDataType = SERVER.${entity.name};
 

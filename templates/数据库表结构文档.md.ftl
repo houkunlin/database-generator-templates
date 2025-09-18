@@ -9,8 +9,8 @@ ${gen.setFilename("${table.name}.md")}
 ## ${table.name}
 ${table.comment}
 
-| 序号 | DB名称 | DB类型 | Java名称 |  Java类型 | 主键 | 描述 |
+| 序号 | DB字段 | Java字段 | DB类型 | Java类型 | 主键 | 描述 |
 |----|------|------|------|---|----|----|
 <#list columns as column>
-|${column?index + 1}|${column.name}|${column.fullTypeName}|<#if column.name?starts_with("is_")>${column.field.name?replace('is','','f')?uncap_first}<#else>${column.field.name}</#if>|${column.field.typeName}|<#if column.primaryKey>是</#if>|${column.comment}|
+|${column?index + 1}|${column.name}|<#if column.name?starts_with("is_")>${column.field.name?replace('is','','f')?uncap_first}<#else>${column.field.name}</#if>|${column.fullTypeName}|${column.field.typeName}|<#if column.primaryKey>是</#if>|${column.comment}|
 </#list>

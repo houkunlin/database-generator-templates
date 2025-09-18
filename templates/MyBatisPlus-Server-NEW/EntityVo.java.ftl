@@ -1,6 +1,5 @@
-${gen.setFilename("${entity.name}Vo.java")}
-${gen.setFilepath("${settings.javaPath}/${entity.packages.entity}/")}
-package ${entity.packages.entity};
+${gen.setType("vo")}
+package ${entity.packages.vo};
 
 ${entity.packages}
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,7 +22,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${entity.name}Vo implements Serializable {
+public class ${entity.name.vo} implements Serializable {
 <#list fields as field>
     <#if field.selected>
         /**

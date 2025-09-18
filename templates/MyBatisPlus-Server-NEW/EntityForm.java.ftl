@@ -1,6 +1,5 @@
-${gen.setFilename("${entity.name}Form.java")}
-${gen.setFilepath("${settings.javaPath}/${entity.packages.entity}/")}
-package ${entity.packages.entity};
+${gen.setType("form")}
+package ${entity.packages.form};
 
 import com.baomidou.mybatisplus.annotation.*;
 ${entity.packages}
@@ -23,7 +22,7 @@ import jakarta.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${entity.name}Form implements Serializable {
+public class ${entity.name.form} implements Serializable {
 <#list fields as field>
     <#if field.selected>
         <#if field.name?starts_with("created") || field.name?starts_with("updated") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted") || field.name?starts_with("revision") || field.name?starts_with("tenantId") >

@@ -23,7 +23,7 @@ import { history } from '@umijs/max';
 import React, { createContext, useEffect, useRef, useState,useCallback, useMemo } from 'react';
 import { get${entity.name}, save${entity.name} } from './service';
 import FooterButton from '@/components/FooterButton';
-import { getDict } from "@/antd-utils";
+import { getDict } from "@houkunlin/antd-utils";
 import { usePanelTab } from "@/services/utils";
 import { Rule } from "rc-field-form/lib/interface";
 import { useRequest } from "ahooks";
@@ -82,7 +82,7 @@ export function FormFieldContent(){
                             min={0}
                             fieldProps={{ precision: ${(field.dataType.scale)!'2'} }}
                     />
-                <#elseif tsType == 'Date'>
+                <#elseif tsType?contains("Date")>
                     <ProFormDatePicker
                             width="md"
                             name="${field.name}"

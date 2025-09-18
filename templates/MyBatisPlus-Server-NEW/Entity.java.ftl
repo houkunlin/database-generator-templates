@@ -32,6 +32,7 @@ public class ${entity.name.entity} implements Serializable {
         <#if field.column.comment?trim?length gt 0 && field.comment != field.column.comment> * <p>数据库字段说明：${field.column.comment}</p></#if>
         */
         <#if field.primaryKey>
+            @OrderBy(asc = true)
             @TableId(value = "${field.column.name}", type = IdType.ASSIGN_ID)
         </#if>
         <#if field.name?starts_with("created") || field.name?starts_with("deleted") || field.name?starts_with("isDeleted")>
